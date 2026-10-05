@@ -481,11 +481,13 @@ def run_batch(
     write_progress(progress_path, progress)
 
     def log_line(line: str) -> None:
-        if not line or len(line) > 320:
+        if not line:
             return
-        progress["log_tail"] = (progress["log_tail"] + [line])[-30:]
-        progress["updated_at"] = now_iso()
-        write_progress(progress_path, progress)
+        print(f"[Colab] {line}", flush=True)
+        if len(line) <= 320:
+            progress["log_tail"] = (progress["log_tail"] + [line])[-30:]
+            progress["updated_at"] = now_iso()
+            write_progress(progress_path, progress)
 
     results: list[dict[str, Any]] = []
     batch_error: str | None = None
