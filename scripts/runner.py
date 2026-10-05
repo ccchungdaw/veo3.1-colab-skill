@@ -29,6 +29,13 @@ if sys.platform == "win32":
     os.environ["PYTHONUTF8"] = "1"
 
 SKILL_DIR = Path(__file__).resolve().parents[1]
+if (SKILL_DIR / ".env").is_file() and not os.environ.get("GEMINI_API_KEY"):
+    for env_line in (SKILL_DIR / ".env").read_text(encoding="utf-8").splitlines():
+        env_line = env_line.strip()
+        if env_line and not env_line.startswith("#") and "=" in env_line:
+            k, v = env_line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
 NOTEBOOK_VEO = SKILL_DIR / "assets" / "Veo_3_1_Colab.ipynb"
 NOTEBOOK_MINIMAX = SKILL_DIR / "assets" / "MiniMax_H3_Turbo_Colab.ipynb"
 ANSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
@@ -586,7 +593,7 @@ def run_batch(
                     f"ENABLE_FACE_RESTORE={'1' if job.get('face_restore') else '0'}",
                     f"ENABLE_UPSCALE={'1' if job.get('upscale') in ('2x', '4k', '4x') else '0'}",
                     f"ENABLE_INTERPOLATE={'1' if job.get('interpolate') in ('48', '60', '120') else '0'}",
-                    f"TARGET_FPS={job.get('interpolate', '60')}",
+                    f"TARGET_FPS={job.get('interpolate') if str(job.get('interpolate')).isdigit() else '60'}",
                 ]
                 if api_key:
                     env_values.append(f"GEMINI_API_KEY={api_key}")
@@ -695,6 +702,13 @@ def run_direct_veo(
     elif reference_images and len(reference_images) > 0 and reference_images[0].is_file():
         input_image = types.Image.from_file(location=str(reference_images[0]))
 
+    if duration < 5:
+        duration = 4
+    elif duration < 7:
+        duration = 6
+    else:
+        duration = 8
+
     config_kwargs: dict[str, Any] = {
         "aspect_ratio": aspect_ratio,
         "resolution": resolution,
@@ -801,6 +815,14 @@ def run_single(
     use_colab: bool = False,
 ) -> Path:
     images = images or []
+    if engine == "veo":
+        if duration < 5:
+            duration = 4
+        elif duration < 7:
+            duration = 6
+        else:
+            duration = 8
+
     has_enhancements = bool(flux_prompt or face_restore or upscale not in ("none", "") or interpolate not in ("none", ""))
     target_output = output or (Path.cwd() / f"{engine}_{time.strftime('%Y%m%d_%H%M%S')}.mp4")
 

@@ -187,9 +187,8 @@ HTML_CONTENT = """<!DOCTYPE html>
             <div>
               <label class="block text-xs font-medium text-zinc-400 mb-1.5">秒數長度</label>
               <select id="veo-duration-select" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-2.5 text-xs text-zinc-200 focus:outline-none focus:border-brand-500">
-                <option value="5" selected>5 秒 (預設流暢)</option>
-                <option value="6">6 秒</option>
-                <option value="7">7 秒</option>
+                <option value="4">4 秒</option>
+                <option value="6" selected>6 秒 (預設流暢)</option>
                 <option value="8">8 秒 (最大標準長度)</option>
               </select>
             </div>
