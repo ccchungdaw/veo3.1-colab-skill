@@ -1,0 +1,24 @@
+{
+  "jobs": [
+    {
+      "id": "cyberpunk_intro",
+      "title": "Cyberpunk Skyscraper Intro",
+      "prompt_file": "assets/inputs/sample_prompt.txt",
+      "model": "veo-3.1-generate-preview",
+      "duration_seconds": 5,
+      "aspect_ratio": "16:9",
+      "resolution": "1080p",
+      "output_name": "cyberpunk_intro"
+    },
+    {
+      "id": "nature_wildlife",
+      "title": "Snow Leopard at Sunrise",
+      "prompt": "Cinematic 4k shot of a majestic snow leopard perched on a Himalayan mountain ridge at sunrise, cold wind blowing, photorealistic, synchronized atmospheric soundscape.",
+      "model": "veo-3.1-fast-generate-preview",
+      "duration_seconds": 5,
+      "aspect_ratio": "16:9",
+      "resolution": "720p",
+      "output_name": "nature_wildlife"
+    }
+  ]
+}

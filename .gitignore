@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.tmp
+*.mp4
+*.png
+*.jpg
+*.jpeg
+work_*
+outputs/
+.env
+.env.*
+.venv/
+env/
+.coverage
+htmlcov/
+.pytest_cache/
